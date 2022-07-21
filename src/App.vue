@@ -1,17 +1,38 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+      <!-- if flag is false you cant go out from login-->
+      <LoginProyecto v-if="!flag" @changeFlag="recivedMessage" :users="listUsers"></LoginProyecto>
+      <!-- if flag is true you will go to the main page -->
+      <MainProyecto v-if="flag" @changeFlagFromMain="recivedMessage"></MainProyecto>
+      <RegisterProyecto v-if="!flag" @sendRegister="recivedRegister"></RegisterProyecto>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import LoginProyecto from './components/LoginProyecto.vue';
+import MainProyecto from './components/MainProyecto.vue';
+import RegisterProyecto from './components/RegisterProyecto.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    LoginProyecto,
+    MainProyecto,
+    RegisterProyecto
+  },
+  data(){
+    return {
+      flag: false,
+      listUsers: [],
+    }
+  },
+  methods: {
+    recivedMessage(){
+      this.flag = true;
+    },
+    recivedRegister(payload){
+      this.listUsers.push(payload)
+    }
   }
 }
 </script>
