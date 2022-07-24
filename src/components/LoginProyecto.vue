@@ -8,7 +8,7 @@
       <!-- v-model to change the username an password values in data. -->
       <input type="password" placeholder="Enter Password" name="pwd" v-model="pwd" required>
         
-      <button @click="changeValue">Login</button>
+      <button @click="hideLogin">Login</button>
     </div>
 
 </template>
@@ -30,12 +30,9 @@
       }
     },
     methods: {
-      changeValue () {
-        if (this.username == 'admin' && this.pwd == 'admin') {
-            // if the user is admin, change the value of the flag in the father (app)
-            this.$emit('changeFlag');
-        }
-      }
+      hideLogin () {
+        this.$emit('hideLogin')
+      },      
     },
     computed: {
 

@@ -1,9 +1,21 @@
 <template lang="html">
 
     <div>
-        <h1>Esto es la main page</h1>
-        <!-- send the flag to the father (app) -->
-        <button class="btn btn-primary" @click="changeValue">Loguot</button>
+        <h1 class="mb-5">🥥🍍Greengrocery🍓🍇</h1>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4 mb-3" v-for="(item, i) in data" :key="i">
+                <div class="card" style="width: 18rem;">
+                  <!-- <img :src="item.img" class="card-img-top" alt="..."> -->
+                  <div class="card-body">
+                    <h5 class="card-title">{{item.name}}</h5>
+                    <p class="card-text">Price: {{item.price}}</p>
+                    <a href="javascript:void(0)" @click="addToCart(item.id)" class="btn btn-primary">Add to Cart</a>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
     </div>
 
 </template>
@@ -12,7 +24,9 @@
 
   export default  {
     name: 'main-proyecto',
-    props: [],
+    props: {
+      data: Array
+    },
     mounted () {
 
     },
@@ -22,8 +36,8 @@
       }
     },
     methods: {
-      changeValue () {
-          this.$emit('changeFlagFromMain');
+      addToCart(item) {
+        this.$emit('addToCart', item);
       }
     },
     computed: {

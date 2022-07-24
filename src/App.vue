@@ -1,39 +1,94 @@
 <template>
   <div id="app">
+      <NavBarProyecto @hideMain="mainFalse" @showMain="mainTrue" v-if="showMain==true"/>
       <!-- if flag is false you cant go out from login-->
-      <LoginProyecto v-if="!flag" @changeFlag="recivedMessage" :users="listUsers"></LoginProyecto>
+      <LoginProyecto v-if="showLogin" @hideLogin="btnLogin" :users="listUsers"></LoginProyecto>
       <!-- if flag is true you will go to the main page -->
-      <MainProyecto v-if="flag" @changeFlagFromMain="recivedMessage"></MainProyecto>
-      <RegisterProyecto v-if="!flag" @sendRegister="recivedRegister"></RegisterProyecto>
+      <MainProyecto :data="products" @addToCart="addToCart" v-if="showMain"></MainProyecto>
+      <CartProyecto v-if="showCart" :cart="cart"></CartProyecto>
+      <!-- <RegisterProyecto v-if="!flag" @sendRegister="recivedRegister"></RegisterProyecto> -->
   </div>
 </template>
 
 <script>
 import LoginProyecto from './components/LoginProyecto.vue';
 import MainProyecto from './components/MainProyecto.vue';
-import RegisterProyecto from './components/RegisterProyecto.vue';
+import NavBarProyecto from './components/NavBarProyecto.vue';
+import CartProyecto from './components/CartProyecto.vue';
+// import RegisterProyecto from './components/RegisterProyecto.vue';
 
 export default {
   name: 'App',
   components: {
     LoginProyecto,
     MainProyecto,
-    RegisterProyecto
+    NavBarProyecto,
+    CartProyecto,
+    // RegisterProyecto
   },
   data(){
     return {
-      flag: false,
+      showLogin: true,
+      showMain: false,
+      showCart: false,
+      showNavBar: true,
+      cart: [],
       listUsers: [],
     }
   },
   methods: {
-    recivedMessage(){
-      this.flag = true;
+    btnLogin(){
+      this.showLogin = false;
+      this.showMain = true;
     },
-    recivedRegister(payload){
-      this.listUsers.push(payload)
-    }
-  }
+    recivedMessage(){
+      this.showLogin = true;
+      this.showMain = false;
+    },
+    recivedRegister(user){
+      this.listUsers.push(user);
+    },
+    recivedCart(product){
+      this.cart.push(product);
+    },
+    recivedDeleteCart(product){
+      this.cart.splice(this.cart.indexOf(product), 1);
+    },
+    recivedDeleteUser(user){
+      this.listUsers.splice(this.listUsers.indexOf(user), 1);
+    },
+    mainTrue() {
+      if (this.showCart == false && this.showLogin == false) {
+        this.showMain = true;
+        this.showCart = false
+      }
+    },
+    mainFalse() {
+      this.showMain = false;
+    },
+    async addToCart(id) {
+      let vm = this
+      const cart = await this.cart.filter(function (prod, i) {
+        if (prod.id == id) {
+          vm.cart[i].cant++
+          return prod;
+        } 
+      })
+      if (!cart[0]) {
+        const product = await this.products.filter(function (prod) {
+          if (prod.id == id) {
+            return prod;
+          }
+        })
+        product[0].cant = 1
+        this.cart.push(product[0]);
+      }
+      this.showCart = false
+      setTimeout(()=>{
+        vm.showCart = true 
+      }, 100)
+    },
+  },
 }
 </script>
 

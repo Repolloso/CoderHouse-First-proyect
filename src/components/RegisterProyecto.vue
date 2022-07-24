@@ -1,7 +1,7 @@
 <template lang="html">
 
   <section class="register-proyecto">
-    <h1>register-proyecto Component</h1>
+    <h1>Register</h1>
 
       <div class="container">
         <label for="username"><b>Name</b></label>
