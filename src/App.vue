@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-      <NavBarProyecto @hideMain="mainFalse" @showMain="mainTrue" v-if="showMain==true"/>
+      <NavBarProyecto @hideMain="mainFalse" @showMain="mainTrue" v-if="showMain" />
       <!-- if flag is false you cant go out from login-->
       <LoginProyecto v-if="showLogin" @hideLogin="btnLogin" :users="listUsers"></LoginProyecto>
       <!-- if flag is true you will go to the main page -->
       <MainProyecto :data="products" @addToCart="addToCart" v-if="showMain"></MainProyecto>
       <CartProyecto v-if="showCart" :cart="cart"></CartProyecto>
-      <!-- <RegisterProyecto v-if="!flag" @sendRegister="recivedRegister"></RegisterProyecto> -->
+      <RegisterProyecto v-if="showRegister" @sendRegister="recivedRegister"></RegisterProyecto>
   </div>
 </template>
 
@@ -15,7 +15,7 @@ import LoginProyecto from './components/LoginProyecto.vue';
 import MainProyecto from './components/MainProyecto.vue';
 import NavBarProyecto from './components/NavBarProyecto.vue';
 import CartProyecto from './components/CartProyecto.vue';
-// import RegisterProyecto from './components/RegisterProyecto.vue';
+import RegisterProyecto from './components/RegisterProyecto.vue';
 
 export default {
   name: 'App',
@@ -24,14 +24,15 @@ export default {
     MainProyecto,
     NavBarProyecto,
     CartProyecto,
-    // RegisterProyecto
+    RegisterProyecto
   },
   data(){
     return {
-      showLogin: true,
+      showLogin: false,
       showMain: false,
       showCart: false,
       showNavBar: true,
+      showRegister: true,
       cart: [],
       listUsers: [],
     }
@@ -41,21 +42,10 @@ export default {
       this.showLogin = false;
       this.showMain = true;
     },
-    recivedMessage(){
-      this.showLogin = true;
-      this.showMain = false;
-    },
     recivedRegister(user){
       this.listUsers.push(user);
-    },
-    recivedCart(product){
-      this.cart.push(product);
-    },
-    recivedDeleteCart(product){
-      this.cart.splice(this.cart.indexOf(product), 1);
-    },
-    recivedDeleteUser(user){
-      this.listUsers.splice(this.listUsers.indexOf(user), 1);
+      this.showRegister = false;
+      this.showLogin = true;
     },
     mainTrue() {
       if (this.showCart == false && this.showLogin == false) {
@@ -65,6 +55,7 @@ export default {
     },
     mainFalse() {
       this.showMain = false;
+      this.showCart = true;
     },
     async addToCart(id) {
       let vm = this
@@ -99,6 +90,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

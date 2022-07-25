@@ -5,17 +5,17 @@
 
       <div class="container">
         <label for="username"><b>Name</b></label>
-        <input type="text" placeholder="Enter Username" name="name" v-model="name" required>
+        <input type="text" placeholder="Enter Username" name="name" v-model="user.name" required>
 
         <label for="username"><b>Surname</b></label>
-        <input type="text" placeholder="Enter Surname" name="surname" v-model="surname" required>
+        <input type="text" placeholder="Enter Surname" name="surname" v-model="user.surname" required>
 
         <label for="username"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="username" v-model="username" required>
+        <input type="text" placeholder="Enter Username" name="username" v-model="user.username" required>
 
         <label for="pwd"><b>Password</b></label>
         <!-- v-model to change the username an password values in data. -->
-        <input type="password" placeholder="Enter Password" name="pwd" v-model="pwd" required>
+        <input type="password" placeholder="Enter Password" name="pwd" v-model="user.pwd" required>
           
         <button @click="register">Register</button>
       </div>

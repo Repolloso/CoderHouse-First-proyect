@@ -2,6 +2,7 @@
 
     <div>
         <h1 class="mb-5">🥥🍍Greengrocery🍓🍇</h1>
+        <h6>The cart will be displayed below the list of products*</h6>
         <div class="container">
           <div class="row">
             <div class="col-md-4 mb-3" v-for="(item, i) in data" :key="i">

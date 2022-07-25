@@ -31,9 +31,14 @@
     },
     methods: {
       hideLogin () {
-        this.$emit('hideLogin')
+        let flag = this.users.filter(user => user.username == this.username && user.pwd == this.pwd);
+
+        if(flag != ''){
+          this.$emit('hideLogin')
+        } else
+          alert('Invalid username or password');
+        }
       },      
-    },
     computed: {
 
     }
